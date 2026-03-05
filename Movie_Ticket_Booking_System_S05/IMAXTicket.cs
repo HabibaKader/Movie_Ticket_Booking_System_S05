@@ -12,16 +12,21 @@ namespace Movie_Ticket_Booking_System_S03
     {
         public bool Is3D { get; set; }
 
-        public IMAXTicket(string movieName, decimal price, bool is3D)
-            : base(movieName, is3D ? price + 30m : price)
+        public IMAXTicket(string movie, decimal price, bool is3D)
+            : base(movie, is3D ? price + 30 : price)
         {
             Is3D = is3D;
         }
 
-        public override void PrintTicket()
+        public override void Print()
         {
-            base.PrintTicket();
-            Console.WriteLine($"IMAX 3D: {(Is3D ? "Yes" : "No")}");
+            Console.WriteLine(
+                $"[Ticket #{TicketId}] {MovieName} | IMAX | 3D: {(Is3D ? "Yes" : "No")} | Price: {Price} | After Tax: {PriceAfterTax} | {BookingStatus}");
+        }
+
+        public override object Clone()
+        {
+            return new IMAXTicket(MovieName, Is3D ? Price - 30 : Price, Is3D);
         }
     }
 }

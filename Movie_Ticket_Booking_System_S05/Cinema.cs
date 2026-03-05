@@ -10,41 +10,36 @@ namespace Movie_Ticket_Booking_System
     public class Cinema
     {
         private Ticket[] tickets = new Ticket[20];
-        private Projector projector = new Projector();
 
         public void OpenCinema()
         {
-            Console.WriteLine("========= Cinema Opened =========");
-            projector.Start();
+            Console.WriteLine("=== Cinema Opened ===\n");
         }
 
         public void CloseCinema()
         {
-            projector.Stop();
-            Console.WriteLine("========= Cinema Closed =========");
+            Console.WriteLine("\n=== Cinema Closed ===");
         }
 
-        public bool AddTicket(Ticket t)
+        public void AddTicket(Ticket t)
         {
             for (int i = 0; i < tickets.Length; i++)
             {
                 if (tickets[i] == null)
                 {
                     tickets[i] = t;
-                    return true;
+                    break;
                 }
             }
-            return false;
         }
 
-        public void PrintAllTickets()
+        public void PrintAll()
         {
-            Console.WriteLine("\n========= All Tickets =========");
-
-            foreach (var ticket in tickets)
+            Console.WriteLine("--- All Tickets ---");
+            foreach (var t in tickets)
             {
-                if (ticket != null)
-                    ticket.PrintTicket(); 
+                if (t != null)
+                    t.Print();
             }
         }
     }

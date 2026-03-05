@@ -13,16 +13,21 @@ namespace Movie_Ticket_Booking_System_S03
         public bool LoungeAccess { get; set; }
         public decimal ServiceFee { get; } = 50m;
 
-        public VIPTicket(string movieName, decimal price, bool loungeAccess)
-            : base(movieName, price + 50m)
+        public VIPTicket(string movie, decimal basePrice, bool lounge)
+            : base(movie, basePrice + 50m)
         {
-            LoungeAccess = loungeAccess;
+            LoungeAccess = lounge;
         }
 
-        public override void PrintTicket()
+        public override void Print()
         {
-            base.PrintTicket();
-            Console.WriteLine($"Lounge: {(LoungeAccess ? "Yes" : "No")} | Service Fee: {ServiceFee} EGP");
+            Console.WriteLine(
+                $"[Ticket #{TicketId}] {MovieName} | VIP | Lounge: {(LoungeAccess ? "Yes" : "No")} | Fee: {ServiceFee} | Price: {Price} | After Tax: {PriceAfterTax} | {BookingStatus}");
+        }
+
+        public override object Clone()
+        {
+            return new VIPTicket(MovieName, Price - ServiceFee, LoungeAccess);
         }
     }
 }

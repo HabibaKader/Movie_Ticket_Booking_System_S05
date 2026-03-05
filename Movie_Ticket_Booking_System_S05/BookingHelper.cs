@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Movie_Ticket_Booking_System_S05;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,13 @@ namespace Movie_Ticket_Booking_System
 {
     public static class BookingHelper
     {
-        private static int bookingCounter = 0;
-
-        public static double CalcGroupDiscount(int numberOfTickets, double pricePerTicket)
+        public static void PrintAll(IPrintable[] items)
         {
-            double total = numberOfTickets * pricePerTicket;
-
-            if (numberOfTickets >= 5)
-                return total * 0.9;
-
-            return total;
-        }
-
-        public static string GenerateBookingReference()
-        {
-            bookingCounter++;
-            return $"BK-{bookingCounter}";
+            Console.WriteLine("\n--- BookingHelper.PrintAll ---");
+            foreach (var item in items)
+            {
+                item.Print();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Movie_Ticket_Booking_System.Enum;
+using Movie_Ticket_Booking_System_S05;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,38 +8,19 @@ using System.Threading.Tasks;
 
 namespace Movie_Ticket_Booking_System
 {
-    public class Ticket
+    public abstract class Ticket : IPrintable, IBookable, ICloneable
     {
         private static int counter = 0;
 
-        private string movieName;
-        private decimal price;
-
         public int TicketId { get; }
-
-        public string MovieName
-        {
-            get => movieName;
-            set
-            {
-                if (!string.IsNullOrWhiteSpace(value))
-                    movieName = value;
-            }
-        }
-
-        public decimal Price
-        {
-            get => price;
-            protected set
-            {
-                if (value > 0)
-                    price = value;
-            }
-        }
+        public string MovieName { get; set; }
+        public decimal Price { get; protected set; }
 
         public decimal PriceAfterTax => Price * 1.14m;
 
-        public Ticket(string movieName, decimal price)
+        public bool IsBooked { get; private set; }
+
+        protected Ticket(string movieName, decimal price)
         {
             counter++;
             TicketId = counter;
@@ -46,25 +28,30 @@ namespace Movie_Ticket_Booking_System
             Price = price;
         }
 
-        public virtual void PrintTicket()
+        public static int GetTotalTickets() => counter;
+
+        
+        public bool Book()
         {
-            Console.WriteLine(
-                $"Ticket #{TicketId} | {MovieName} | Price: {Price} EGP | After Tax: {PriceAfterTax:F2} EGP");
+            if (IsBooked) return false;
+            IsBooked = true;
+            return true;
         }
 
-        public void SetPrice(decimal newPrice)
+        public bool Cancel()
         {
-            Price = newPrice;
+            if (!IsBooked) return false;
+            IsBooked = false;
+            return true;
         }
 
-        public void SetPrice(decimal basePrice, decimal multiplier)
-        {
-            Price = basePrice * multiplier;
-        }
+        
+        public abstract void Print();
 
-        public static int GetTotalTickets()
-        {
-            return counter;
-        }
+        
+        public abstract object Clone();
+
+        protected string BookingStatus =>
+            $"Booked: {(IsBooked ? "Yes" : "No")}";
     }
 }

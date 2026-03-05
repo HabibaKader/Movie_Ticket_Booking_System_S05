@@ -11,16 +11,21 @@ namespace Movie_Ticket_Booking_System_S03
     {
         public string SeatNumber { get; set; }
 
-        public StandardTicket(string movieName, decimal price, string seatNumber)
-            : base(movieName, price)
+        public StandardTicket(string movie, decimal price, string seat)
+            : base(movie, price)
         {
-            SeatNumber = seatNumber;
+            SeatNumber = seat;
         }
 
-        public override void PrintTicket()
+        public override void Print()
         {
-            base.PrintTicket();
-            Console.WriteLine($"Seat: {SeatNumber}");
+            Console.WriteLine(
+                $"[Ticket #{TicketId}] {MovieName} | Standard | Seat: {SeatNumber} | Price: {Price} | After Tax: {PriceAfterTax} | {BookingStatus}");
+        }
+
+        public override object Clone()
+        {
+            return new StandardTicket(MovieName, Price, SeatNumber);
         }
     }
 }
